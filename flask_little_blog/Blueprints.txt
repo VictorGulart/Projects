@@ -1,0 +1,14 @@
+A view function is the code written to respond to requests to the application. 
+    Flask uses patterns to match the incoming request URL to the view that should handle it. 
+    The view (the function) returns data that Flask turns into an outgoing response. Flask 
+    can also go othe other direction and generate a URL to a view based on its name and
+    arguments.
+    
+    A blueprint is a way to organize a group of related views and other code. Rather than 
+    registering views and other code directlu with an application, they, they are registered
+    with a blueprint. Then the blueprint is registered with the app when it is available
+    in the factory function.
+
+When using blueprints, the name of the blueprint is prepended to the name of
+the function, so the endpoint for the login function is in flaskr project is
+'auth.login' because it was added to the auth blueprint.

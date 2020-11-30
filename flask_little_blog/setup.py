@@ -1,0 +1,41 @@
+"""
+    Making a project installable means that it's possible to build a distribution file and install 
+    that in another environment, just like Flask was installed in the project environment. Thid makes
+    deploying the project the same as installing any other library, so using all the standard python
+    tools to manage everything.
+
+    Installing also come with other benefits that might not be obvious:
+        Currently python and flask understand how to use the flaskr package only because it's running 
+            from the project's directory. Installing means it can be imported no matter where it's 
+            run from.
+        The projects dependecies can be managed just like other packages do, so 
+            "pip install project.whl" installs them
+        Test tools can isolate the test environment from the development environment.
+    
+    This should always be done from the start.
+
+    This file describes the project and the files that belong to it
+
+"""
+
+from setuptools import find_packages, setup
+
+setup(
+        name='flaskr',
+        version='1.0.0',
+        packages=find_packages(),
+        include_package_data=True,
+        zip_safe=False, 
+        install_requires=['flask'], )
+
+"""
+    packages: tells python what packages directories (and the python files they contain) to include.
+    find_packages(): finds these directories automatically so it's not necessary to type them.
+    include_package_data: defined to include static and templates directories
+
+    There's also the need for another file called MANIFEST.in to tell what this other data is.
+    Which tell python to copy everything in the static and templates directories, and the schema.sql
+    file, but to exclude all bytecode files.
+
+    After this the project can be installed inside the virtual environment
+"""

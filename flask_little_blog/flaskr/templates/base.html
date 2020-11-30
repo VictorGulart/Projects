@@ -1,0 +1,46 @@
+<!doctype html>
+
+<title> {% block title %} {% endblock %} - Flaskr </title>
+<link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
+<nav>
+	<h1>Flaskr</h1>
+	<ul>
+		{% if g.user %}
+			<li><span> {{g.user['username']}} </span> </li>
+			<li><a href="{{ url_for('auth.logout') }}"> Log out </a></li>
+		{% else %}
+			<li> <a href="{{ url_for('auth.register') }}">Register</a></li>
+			<li> <a href="{{ url_for('auth.login') }}">Log In</a></li>
+		{% endif %}
+	</ul>
+</nav>
+<section>
+	<header>
+		{% block header %}{% endblock %}
+	</header>
+	{% for message in get_flashed_messages() %}
+		<div class="flash"> {{ message }} </div>
+	{% endfor %}
+	{% block content %} {% endblock %}
+</section>
+
+
+<!--
+g is automatically available in templates. Based on if g.user is set(from load_logged_in_user),
+either the username and a log out link are displayed, or links to register and log in are displayed.
+url_for(): is also automatically available, and is used to generate URLs to views instead of writing
+them manually.
+
+After the page title, and before the content, the template loops over each message returned by
+get_flashed_messages(). flash() was used in the views to show error messages, and this is the code
+that will display them.
+
+There are 3 blocks that will be overridden in the other templates:
+	block title
+	block header
+	block content
+
+This base.html template is directly in the templates directory. To keep the others organized, the
+templates for a blueprint will be placed in a directory with the same name as the blueprint.
+
+-->

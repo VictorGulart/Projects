@@ -1,0 +1,37 @@
+<!--
+	When a user in logged in, the header block add a link to create view. When the user is the
+	author of a post, they'll see an Edit link to the update view for that post.
+	loop.last is a speacial variable available inside Jinga for loops. It's used to display a 
+	line after each post except the last one, to visually separate them.
+-->
+
+{% extends 'base.html' %}
+
+{% block header %}
+	<h1> {% block title %} Posts {% endblock %}</h1>
+	{% if g.user %}
+		<a class='action' href="{{ url_for('blog.create') }}">New</a>
+	{% endif %}
+{% endblock %}
+
+{% block content%}
+	{% for post in posts %}
+		<article>
+			<header>
+				<div>
+					<h1>{{ post['title'] }}</h1>
+				</div>
+				<div class='about'>
+					by {{ post['username'] }} on {{ post['created'].strftime('%d-%m-%Y') }} 	
+				</div>
+				{% if g.user['id'] == post['author_id'] %}
+					<a class='action' href='{{ url_for('blog.update', id=post['id']) }}'>Edit</a>
+			 	{% endif %}
+			</header>	
+			<p class='body'>{{ post['body'] }} </p>
+		</article>
+		{% if not loop.last %}
+			<hr>
+		{% endif %}
+	{% endfor %}	
+{% endblock %}

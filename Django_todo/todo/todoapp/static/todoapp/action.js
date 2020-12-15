@@ -1,7 +1,3 @@
-var focusedId = 1;
-
-
-
     function update_list(){
         var xhr = new XMLHttpRequest();
         var url = window.location.href;
@@ -63,27 +59,36 @@ var focusedId = 1;
         } 
     }
 
-    function edit_modal(taskId){
-        var modal = document.getElementById('editModal');
-        var content = document.getElementById('content');
-        
-        // AJAX
+    function get_data(taskId, content){
+        // AJAX call for the data and form
         var xhr = new XMLHttpRequest();
         var url = window.location.href;
-        url = new URL('edit_modal/'+taskId, url);
-
-        xhr.open('POST', url, true);
+        url = new URL('get_modal/'+taskId, url);
+        xhr.open('GET', url, true);
 
         xhr.onload = function(){
             if (xhr.status >= 200 && xhr.status < 400){
                 content.innerHTML = xhr.responseText;
-                // update_list();
+                console.log(xhr);
             }
         }
 
-        xhr.setRequestHeader('X-CSRFToken', window.CSRF_TOKEN);
-        xhr.send();
+        xhr.onloadend = () => {
+            document.getElementById('form-btn').onclick = () =>{
+                update_task(taskId);
+            }
+        };
 
+        xhr.send();
+    }
+
+    function edit_modal(taskId){
+        var modal = document.getElementById('editModal');
+        var content = document.getElementById('content');
+       
+        // Ajax call
+        get_data(taskId, content);
+        
         // Display the Modal
         modal.style.display = 'block';
         var closeBtn = document.getElementsByClassName('close')[0];
@@ -101,5 +106,23 @@ var focusedId = 1;
             e.stopImmediatePropagation();
             return false;
         }
+    }
 
+    function update_task(taskId){
+        var xhr = new XMLHttpRequest();
+        var url = new URL('edit_modal_task/'+taskId, window.location.href);
+
+        xhr.open('POST', url, true);
+
+        xhr.onload = () => {
+            if (xhr.status >= 200 && xhr.status < 400){
+                update_list();
+            }
+        }
+
+        xhr.setRequestHeader('X-CSRFToken', window.CSRF_TOKEN);
+
+        // Get form data
+        var formData = new URLSearchParams(new FormData(document.getElementById('modal-form')));
+        xhr.send(formData);
     }

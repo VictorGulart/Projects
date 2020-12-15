@@ -1,7 +1,18 @@
 <div class="container">
-    <form method="post">
+<!-- action="{% url 'todoapp:update_modal_task' form.instance.id %}" -->
+    <form  id='modal-form' method="post">
         {% csrf_token %}
         {{form}}
-        <input type="submit" class="btn btn-secondary btn-green" value="Save" style='margin-top: 10px'>
+        <input id='form-btn' type="submit" class="btn btn-secondary btn-green" value="Save" style='margin-top: 10px'>
     </form>
 </div>
+
+<script>
+    // btn = document.getElementById('form_submit_btn')
+    // btn.addEventListener('click', () => {
+    //     document.getElementById('modal-form').submit();
+    // }) ;
+    // .onclick = function() {
+    //  document.getElementsById('modal-form').submit();  
+    
+</script>

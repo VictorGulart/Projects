@@ -41,14 +41,20 @@ def edit_view(request, pk, *args, **kwargs):
     context = {'form':form }
     return render(request, 'todoapp/edit_task.html', context)
 
+def get_modal_view( request, pk, *args, **kwargs):
+    task = get_object_or_404(Task, pk=pk)
+    form = TaskForm(instance=task) 
+    context = {'form':form }
+    return render(request, 'todoapp/task_form.html', context)
+
 def edit_modal_view( request, pk, *args, **kwargs):
     task = get_object_or_404(Task, pk=pk)
     form = TaskForm(request.POST or None, instance=task) 
-    print('INSIDE THE VIEW')
     if form.is_valid():
-        form.save()
+        form.save() 
     context = {'form':form }
-    return render(request, 'todoapp/task_form.html', context)
+    return HttpResponse('Success')
+
 
 def delete_view( request, pk, *args, **kwargs):
     task = get_object_or_404(Task, pk=pk)

@@ -1,0 +1,65 @@
+<!-- This is the base for all the html pages -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>{% block title %}{% endblock %}</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+	<!--Bootstrap CSS only -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+</head>
+
+<body class="container">
+
+	<!-- This is the navigation bar -->
+	<nav class="navbar-dark bg-dark">
+		<ul class="nav nav-tabs justify-content-center">
+			<li class="nav-item">
+				<a class="nav-link" href="{{url_for('initial')}}">Home</a>
+			</li>
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-hashpopup="true" aria-expanded="false">Sorting</a>
+				<ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+					<li class="nav-link dropdown-item" >
+						<a href="{{ url_for('sorting.bubblesort') }}">BubbleSort</a>
+					</li>
+					<li class="nav-link dropdown-item" >
+						<a href="{{ url_for('sorting.selectionsort') }}">Selection Sort</a>
+					</li>
+				</ul>
+			</li>
+			
+		</ul>
+	</nav>
+
+
+	<!-- This is the part where the content starts -->
+	<section id="canvas-body" class="container text-dark" style="padding: initial; padding-top:5px;">
+		{% block header %} 
+			{% for message in get_flashed_messages() %}
+				<div> class="flash"> {{message}} </div>
+			{% endfor %}
+		{% endblock %}
+		
+		{% block content %} {% endblock %}
+	</section>	
+
+
+
+
+	<!-- Bootstrap JS, Popper.js, and jQuery -->
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+	<!-- P5 -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.0.0/p5.js"></script>
+</body>
+
+<footer class="container text-center text-light bg-dark">
+	Created by Victor Gulart on 11/06/2020
+</footer>
+
+</html>

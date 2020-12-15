@@ -20,7 +20,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('', include( 'todoapp.urls' ) ),
-    #path('todoapp/api/', include('todoapp.api.urls'), namespace='api-list'), 
+    path('todoapp/api/', include('todoapp.api.urls')), 
     #path('api-auth/', include('rest_framework.urls')),
     #path('summernote/', include('django_summernote.urls')),
     path('admin/', admin.site.urls),

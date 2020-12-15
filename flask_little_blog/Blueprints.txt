@@ -5,7 +5,7 @@ A view function is the code written to respond to requests to the application.
     arguments.
     
     A blueprint is a way to organize a group of related views and other code. Rather than 
-    registering views and other code directlu with an application, they, they are registered
+    registering views and other code directly with an application, they, they are registered
     with a blueprint. Then the blueprint is registered with the app when it is available
     in the factory function.
 

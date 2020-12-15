@@ -1,0 +1,21 @@
+<html>
+
+<head>
+
+</head>
+
+<body>
+    {% if question %}
+        <p>The results for the question - {{question.question_text}}</p>
+
+        {% for choice in question.choice_set.all %}
+            <p>{{choice.choice_text}} -- Total votes {{choice.votes}}</p>
+        {% endfor %}
+
+    {% else %}
+        <p> Something is missing </p>
+    {% endif %}
+</body>
+
+
+</html>

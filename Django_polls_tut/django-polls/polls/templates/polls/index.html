@@ -1,0 +1,30 @@
+
+<html>
+
+<head>
+	
+</head>
+
+<body>
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}">
+	{% if latest_question_list  %}
+	<ul>
+		{% for question in latest_question_list %}
+		<!--- the line above can be automated to aviod problems in the future
+			if I wanted to change the URL of this all I have to do is change the path()
+			in the urlspatterns
+		
+		this becomes invalid when a namespace is created 
+		had to remove curly braces and percent sign otherwise it would try to print anyway 
+		<li><a href="/polls/{{ question.id }}">{{ question.question_text }}</a></li>
+		<li><a href=" url 'detail' question.id ">{{ question.question_text }}</a></li>
+		-->
+		<li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
+	{% endfor %}
+	</ul>
+	{% else %}	
+	<p> No polls are available. </p>
+	{% endif %}	
+</html>
+</html>

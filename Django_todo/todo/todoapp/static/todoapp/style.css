@@ -1,0 +1,34 @@
+
+body{
+    font-family: Verdana, Arial;
+}
+
+p{
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    background-color: rgb(157, 219, 187);
+    font-size: 1.5em;
+    padding: 10px;
+}
+
+ul li {
+    list-style: none;
+    width: auto;
+    margin: 0px;
+}
+
+li a {
+    text-decoration: none;
+    color: black
+}
+
+li a:hover {
+    color: rgb(235, 245, 238);
+}
+
+#editor {
+    display: block;
+}

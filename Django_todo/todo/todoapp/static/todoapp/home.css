@@ -2,6 +2,7 @@
     box-sizing: border-box;
 }
 
+
 #header{
     color:seagreen;
     width: 100%;
@@ -35,6 +36,16 @@
 .tasks:hover{
     cursor: pointer;
     opacity: 0.8;
+}
+
+.icons-bar{
+    margin: 0px 15px;
+    font-size: 24px;
+} 
+
+.checkbox{
+    width: 20px;
+    height: 20px;
 }
 
 .btn-green{

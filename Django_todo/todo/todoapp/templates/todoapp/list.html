@@ -6,10 +6,9 @@
                     {{task.title}}
                 </div>
                 <div class="col-auto"> 
-                    <a href="{% url 'todoapp:update_task' task.id %}" > Edit</a>
-                    <span class='span-link' onclick="check_task({{task.id}})" > Check</span>
-                    <input type="checkbox" name="" id="checkbox{{task.id}}" class="checkbox btn-green">
-                    <span class='w3-xlarge'><i onclick="delete_task({{task.id}})" class='fa fa-trash'></i> </span>
+                    <input id="checkbox{{task.id}}" class="icons-bar checkbox" type="checkbox" >
+                    <a class="icons-bar" href="{% url 'todoapp:update_task' task.id %}"><i class="fa fa-edit"></i></a>
+                    <a class="icons-bar"><i onclick="delete_task({{task.id}})" class='fa fa-trash'></i> </a>
                 </div>
             </div>
         </div>

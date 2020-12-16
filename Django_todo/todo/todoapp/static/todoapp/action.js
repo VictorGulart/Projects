@@ -60,7 +60,7 @@
     }
 
     function get_data(taskId, content){
-        // AJAX call for the data and form
+        // Raw AJAX call to get the data and form
         var xhr = new XMLHttpRequest();
         var url = window.location.href;
         url = new URL('get_modal/'+taskId, url);
@@ -83,6 +83,7 @@
     }
 
     function edit_modal(taskId){
+        // This functions shows the modal and get the data from server with XMLHttpRequest (Raw Ajax)
         var modal = document.getElementById('editModal');
         var content = document.getElementById('content');
        
@@ -109,6 +110,7 @@
     }
 
     function update_task(taskId){
+        // Handles the editing of a task on the modal 'pop up' 
         var xhr = new XMLHttpRequest();
         var url = new URL('edit_modal_task/'+taskId, window.location.href);
 

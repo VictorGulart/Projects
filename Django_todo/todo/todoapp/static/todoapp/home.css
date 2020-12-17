@@ -117,3 +117,26 @@
     height:500px;
     position: absolute;
 }
+
+.credential-form{
+    color: white;
+    width: 50%;
+    height: auto;
+    max-width: 500px;
+    margin: auto;
+    margin-top: 250px;
+    background-color: seagreen;
+    border-radius: 10px;
+}
+
+.form{
+    padding: 10px;
+}
+
+.form-group{
+    margin: 10px 0px ;
+}
+
+.form-group a{
+    color: white;
+}

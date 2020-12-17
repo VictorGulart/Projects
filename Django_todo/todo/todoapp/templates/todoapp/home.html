@@ -6,25 +6,26 @@
 
 {% block content %}
 
-<div class="container" id='menu'>
-    <input type="button" class='btn btn-secondary btn-green' value="Add Task" onclick="add_task()">
-    <input type="button" class='btn btn-secondary btn-green' value="Check All">
-    <input type="button" class='btn btn-secondary btn-green' value="Remove Checked">
-</div>
-
-<div class="modal" id='editModal'> <!-- This is the modal  -->
-    <span class="close">&times;</span><!-- CLOSING BUTTON-->
-    <div class="modal-content" id='content'>
-        <!-- CONTENT ITSELF  -->
+    <div class="container" id="header"> <h1> To Do App </h1> </div>
+    <div class="container" id='menu'>
+        <input type="button" class='btn btn-secondary btn-green' value="Add Task" onclick="add_task()">
+        <input type="button" class='btn btn-secondary btn-green' value="Check All">
+        <input type="button" class='btn btn-secondary btn-green' value="Remove Checked">
     </div>
-</div>
 
-<div id="list">
-    {% include 'todoapp/list.html' %}
-</div>
+    <div class="modal" id='editModal'> <!-- This is the modal  -->
+        <span class="close">&times;</span><!-- CLOSING BUTTON-->
+        <div class="modal-content" id='content'>
+            <!-- CONTENT ITSELF  -->
+        </div>
+    </div>
+
+    <div id="list">
+        {% include 'todoapp/list.html' %}
+    </div>
 
 
-    
-<script>
-</script>
+
+    <script>
+    </script>
 {% endblock content%}

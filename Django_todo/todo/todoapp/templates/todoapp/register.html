@@ -27,6 +27,15 @@
                 </div>
                 <input class='btn btn-light' type="submit" value="Register">
             </form>
+
+            {{form.errors}}
+
+            {% for message in messages %}
+            <div class="form-group"><span>
+                {{ message }}
+            </span></div>
+            {% endfor %}
+
             <div class='form-group'>
                 <span>
                     Already have an account? <a href="{% url 'todoapp:login' %}" >Login</a>

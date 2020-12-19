@@ -95,14 +95,14 @@ def edit_view(request, pk, *args, **kwargs):
     form = TaskForm(request.POST or None, instance=task) 
     if form.is_valid():
         form.save()
-    context = {'form':form }
+    context = {'form':form, 'modal':False }
     return render(request, 'todoapp/edit_task.html', context)
 
 @login_required(login_url='todoapp:login')
 def get_modal_view( request, pk, *args, **kwargs):
     task = get_object_or_404(Task, pk=pk)
     form = TaskForm(instance=task) 
-    context = {'form':form }
+    context = {'form':form, 'modal':True }
     return render(request, 'todoapp/task_form.html', context)
 
 @login_required(login_url='todoapp:login')
@@ -122,3 +122,39 @@ def delete_view( request, pk, *args, **kwargs):
         print('DELETED WITH SUCCESS')
         task.delete()
     return list_view( request ) 
+
+@login_required(login_url='todoapp:login')
+def update_checkbox( request, pk ):
+    # Negate the present value
+    # use the message system to pass the message if failed to the top of the page
+    if request.method == 'POST':
+        task = Task.objects.get(pk=pk)
+        task.checked = not task.checked
+        task.save()
+        return HttpResponse('Success')
+    else:
+        return HttpResponse('Failed')
+
+@login_required(login_url='todoapp:login')
+def check_all_boxes_view( request ):
+    if request.method == 'POST':
+        tasks = Task.objects.filter(user = request.user)
+        for task in tasks:
+            if task.checked == False:
+                task.checked = not task.checked
+            else:
+                continue
+            task.save()
+        return HttpResponse('Success')
+        
+    return HttpResponse('Failed')
+    
+@login_required(login_url='todoapp:login')
+def delete_all_checked_view( request ):
+    if request.method == 'POST':
+        tasks = Task.objects.filter(user = request.user)
+        for task in tasks:
+            if task.checked:
+                task.delete()
+        return HttpResponse('Success')
+    return HttpResponse('Failed')

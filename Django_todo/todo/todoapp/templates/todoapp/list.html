@@ -6,7 +6,11 @@
                     {{task.title}}
                 </div>
                 <div class="col-auto"> 
-                    <input id="checkbox{{task.id}}" class="icons-bar checkbox" type="checkbox" >
+                    {% if task.checked == True %}
+                        <input id="checkbox{{task.id}}" class="icons-bar checkbox" type="checkbox" checked=true onclick="updateCheckbox({{task.id}}, {{task.checked|lower}})">
+                    {% else %}
+                        <input id="checkbox{{task.id}}" class="icons-bar checkbox" type="checkbox" onclick="updateCheckbox({{task.id}}, {{task.checked|lower}})">
+                    {% endif %}
                     <a class="icons-bar" href="{% url 'todoapp:update_task' task.id %}"><i class="fa fa-edit"></i></a>
                     <a class="icons-bar"><i onclick="delete_task({{task.id}})" class='fa fa-trash'></i> </a>
                 </div>

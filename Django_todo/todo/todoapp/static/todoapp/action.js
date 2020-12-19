@@ -14,7 +14,6 @@
     }
 
     function delete_task(taskId){
-        console.log('Inside POST request');
         var xhr = new XMLHttpRequest();
         var url = window.location.href;
         url = new URL(taskId + '/delete/', url);
@@ -69,7 +68,6 @@
         xhr.onload = function(){
             if (xhr.status >= 200 && xhr.status < 400){
                 content.innerHTML = xhr.responseText;
-                console.log(xhr);
             }
         }
 
@@ -128,3 +126,60 @@
         var formData = new URLSearchParams(new FormData(document.getElementById('modal-form')));
         xhr.send(formData);
     }
+
+    function updateCheckbox(taskId, boxValue){
+        var old_box = document.getElementById('checkbox'+taskId); // going to be replaced
+        var xhr = new XMLHttpRequest();
+        var url = window.location.href;
+        url = new URL('checkbox/'+taskId, url);
+        xhr.open('POST', url, true);
+
+        xhr.onload = () =>{
+            if (xhr.responseText == 'Success'){
+                if (boxValue == false){
+                    old_box.removeAttribute('cheked');
+                }else{
+                    old_box.setAttribute('checked', true);
+                }
+            
+            } else{
+                console.log('Something went wrong');
+            }
+            
+        }
+        
+        xhr.setRequestHeader('X-CSRFToken', window.CSRF_TOKEN);
+        xhr.send()
+    }
+    
+    function checkAllBoxes(){
+        var xhr = new XMLHttpRequest();
+        var url = window.location.href;
+        url = new URL('check_all/', url);
+        xhr.open('POST', url, true);
+
+        xhr.onloadend = () =>{
+            if (xhr.responseText == 'Success'){
+                update_list(); // update the user's task list
+            }   
+        }
+        
+        xhr.setRequestHeader('X-CSRFToken', window.CSRF_TOKEN);
+        xhr.send()
+    }
+
+    function deleteAllChecked(){
+        var xhr = new XMLHttpRequest();
+        var url = window.location.href;
+        url = new URL('delete_all_checked/', url);
+        xhr.open('POST', url, true);
+
+        xhr.onloadend = () =>{
+            if (xhr.responseText == 'Success'){
+                update_list(); // update the user's task list
+            }   
+        }
+        
+        xhr.setRequestHeader('X-CSRFToken', window.CSRF_TOKEN);
+        xhr.send()
+    } 

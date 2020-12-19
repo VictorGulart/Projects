@@ -8,11 +8,17 @@
 
     <div class="container" id="header"> <h1> To Do App </h1> </div>
     <div class="container" id='menu'>
-        <span>Hello {{request.user|title}} </span>
-        <a href="{% url 'todoapp:logout' %}"><input type="button" class='btn btn-secondary btn-green' value="Logout"></a>
-        <input type="button" class='btn btn-secondary btn-green' value="Add Task" onclick="add_task()">
-        <input type="button" class='btn btn-secondary btn-green' value="Check All">
-        <input type="button" class='btn btn-secondary btn-green' value="Remove Checked">
+        <div class="row">
+            <div class="col">
+                <input type="button" class='btn btn-secondary btn-green' value="Add Task" onclick="add_task()">
+                <input type="button" class='btn btn-secondary btn-green' value="Check All" onclick='checkAllBoxes()'>
+                <input type="button" class='btn btn-secondary btn-green' value="Remove Checked" onclick="deleteAllChecked()">
+            </div>
+            <div class="col-auto">
+                <span>Hello {{request.user|title}} </span>
+                <a href="{% url 'todoapp:logout' %}"><input type="button" class='btn btn-secondary btn-green' value="Logout"></a>
+            </div>
+        </div>
     </div>
 
     <div class="modal" id='editModal'> <!-- This is the modal  -->

@@ -4,5 +4,8 @@
         {% csrf_token %}
         {{form}}
         <input id='form-btn' type="submit" class="btn btn-secondary btn-green" value="Save" style='margin-top: 10px'>
+        {% if not modal %}
+            <a href="{% url 'todoapp:home' %}" class="btn btn-secondary btn-green" style='margin-top: 10px'>Back</a>
+        {% endif %}
     </form>
 </div>

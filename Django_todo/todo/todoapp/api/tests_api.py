@@ -11,6 +11,7 @@ class TaskTestCase(APITestCase):
 
     def setUp(self):
         ## crate somethings that are related to the testing 
+        # print('Creating User on API')
         user = User.objects.create(username='testUser', email='test@test.com') 
         user.set_password("somepassword")
         user.save()

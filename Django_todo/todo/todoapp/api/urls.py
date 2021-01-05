@@ -1,9 +1,10 @@
-from .views import ToDoView, ToDoAPIView, ToDoListView, ToDoListViewMixin
+from .views import TaskDestroyView, TaskListView, TaskCreateView, TaskListMixinView, TaskRUDView
 from django.urls import path
 
 urlpatterns = [
-    path('', ToDoListView.as_view(), name='taskList'),
-    path('create', ToDoAPIView.as_view(), name='postCreate'), 
-    path('list_edit', ToDoListViewMixin.as_view(), name='editList'),
-    path('<int:pk>', ToDoView.as_view(), name='apimain')
+    path('', TaskListView.as_view(), name='task_list'),
+    path('new', TaskCreateView.as_view(), name='create_task'), 
+    path('<int:pk>/destroy', TaskDestroyView.as_view(), name='destroy_task'),
+    path('list_edit', TaskListMixinView.as_view(), name='edit_list'),
+    path('<int:pk>', TaskRUDView.as_view(), name='detail_task')
 ]

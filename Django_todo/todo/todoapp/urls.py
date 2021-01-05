@@ -1,14 +1,10 @@
 from django.urls import path, reverse
 from django.urls.conf import include
-from .views import add_task, check_all_boxes_view, delete_all_checked_view, delete_view, home_view, edit_view, list_view, edit_modal_view, get_modal_view, login_page, register_page, logout_view, update_checkbox
+from .views import add_task, check_all_boxes_view, delete_all_checked_view, delete_view, home_view, edit_view, list_view, edit_modal_view, get_modal_view, update_checkbox
 
 app_name = 'todoapp'
 urlpatterns = [
         path('', home_view, name='home'),
-        path('register/', register_page, name='register'),
-        path('login/', login_page, name='login'),
-        path('logout/', logout_view, name='logout'),
-
         path('list', list_view, name='show_list'),
         path('add_task', add_task, name='add_task'),
         path('edit/<int:pk>', edit_view, name='update_task'),

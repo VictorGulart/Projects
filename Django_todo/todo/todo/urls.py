@@ -20,9 +20,9 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('', include( 'todoapp.urls' ) ),
-    path('todoapp/api/', include('todoapp.api.urls')), 
-    #path('api-auth/', include('rest_framework.urls')),
-    #path('summernote/', include('django_summernote.urls')),
+    path('account/', include( 'account.urls' )),
+    path('api/', include('todoapp.api.urls')), 
+    path('api-auth/', include('rest_framework.urls')),
     path('admin/', admin.site.urls),
 ]
 

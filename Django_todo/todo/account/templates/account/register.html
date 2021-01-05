@@ -2,24 +2,33 @@
 
 {% block content %}
     <div class="credential-form">
-        <div class="form">                    
+        <div class="form">
             <p>
-                <h3> Login Account </h3>
+                <h3> Register Account </h3>
             </p>
-
             <form action="" method="post">
                 {% csrf_token %}
                 <!-- Username -->
                 <div class="form-group">
                     <label for="usernameInput">Username</label>
-                    <input type="text" name='username' class="form-control" id="usernameInput" placeholder="Username">
+                    {{form.username}}
                 </div>
                 <div class="form-group">
-                    <label for="passwordInput">Password</label>
-                    <input type="password" name='password' class="form-control" id="passwordInput" placeholder="*****">
+                    <label for="emailInput">Email</label>
+                    {{form.email}}
                 </div>
-                <input class="btn btn-light" type="submit" value="Login">
+                <div class="form-group">
+                    <label for="passwordInput1">Password</label>
+                    {{form.password1}}
+                </div>
+                <div class="form-group">
+                    <label for="passwordInput2">Password</label>
+                    {{form.password2}}
+                </div>
+                <input class='btn btn-light' type="submit" value="Register">
             </form>
+
+            {{form.errors}}
 
             {% for message in messages %}
             <div class="form-group"><span>
@@ -29,7 +38,7 @@
 
             <div class='form-group'>
                 <span>
-                    Don't have an account? <a href="{% url 'todoapp:register' %}" >Sign Up</a>
+                    Already have an account? <a href="{% url 'account:login' %}" >Login</a>
                 </span>
             </div>
         </div>

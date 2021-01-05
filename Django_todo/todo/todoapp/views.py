@@ -1,3 +1,4 @@
+import json
 from django.core.checks import messages
 from django.shortcuts import redirect, render, get_object_or_404
 from django.views.decorators.csrf import csrf_protect
@@ -7,71 +8,21 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.utils import timezone
 
 # Sessions - logins, registrations, authentication, flash messages
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required # to see the page login is required
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import Group
 from django.contrib import messages
 
-
-from .decorators import unauthenticated_user, allowed_users
-
-
+# Todoapp imports
 from .models import Task
-from .forms import TaskForm, CreateUserForm
-import json
-# Create your views here.
+from .forms import TaskForm
 
-@login_required(login_url='todoapp:login')
-@allowed_users(allowed_roles=['admin', 'users'])
+@login_required(login_url='account:login')
 def home_view( request, *args, **kwargs):
-
     context = {
         'tasks':Task.objects.filter(user=request.user)
     }
     return render( request, 'todoapp/home.html', context) 
 
-@unauthenticated_user
-def login_page( request ):
-    context = {}
-    if  request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-
-        user = authenticate(request, username=username, password=password)
-
-        if user is not None:
-            login(request, user)
-            return redirect('todoapp:home')
-        else:
-            messages.info(request, 'Username or Password is incorrect.')
-    return render( request, 'todoapp/login.html', context)
-
-@login_required(login_url='todoapp:login')
-def logout_view( request ):
-    logout(request)
-    return redirect('todoapp:login')
-
-@unauthenticated_user
-def register_page( request ):
-    form = CreateUserForm()
-    if request.method == 'POST':
-        form = CreateUserForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            username = form.cleaned_data.get('username')
-            username = username.capitalize()
-
-            group = Group.objects.get(name='users')
-            user.groups.add(group)
-
-            messages.success( request, f'Account was created for {username}')
-            return redirect('todoapp:login')
-
-    context = {'form':form}
-    return render( request, 'todoapp/register.html', context)
-
-@login_required(login_url='todoapp:login')
+@login_required(login_url='account:login')
 def add_task( request, *args, **kwargs):
     ''' Creates a default task and returns the updated list '''
     if request.method == 'POST':
@@ -80,7 +31,7 @@ def add_task( request, *args, **kwargs):
         task.save()
     return list_view( request )
 
-@login_required(login_url='todoapp:login')
+@login_required(login_url='account:login')
 def list_view( request, *args, **kwargs):
     ''' Returns the list to update the main page '''
     tasks = Task.objects.filter(user=request.user)
@@ -89,7 +40,7 @@ def list_view( request, *args, **kwargs):
     }
     return render( request, 'todoapp/list.html', context)
 
-@login_required(login_url='todoapp:login')
+@login_required(login_url='account:login')
 def edit_view(request, pk, *args, **kwargs):
     task = get_object_or_404( Task, pk=pk)
     form = TaskForm(request.POST or None, instance=task) 
@@ -98,14 +49,14 @@ def edit_view(request, pk, *args, **kwargs):
     context = {'form':form, 'modal':False }
     return render(request, 'todoapp/edit_task.html', context)
 
-@login_required(login_url='todoapp:login')
+@login_required(login_url='account:login')
 def get_modal_view( request, pk, *args, **kwargs):
     task = get_object_or_404(Task, pk=pk)
     form = TaskForm(instance=task) 
     context = {'form':form, 'modal':True }
     return render(request, 'todoapp/task_form.html', context)
 
-@login_required(login_url='todoapp:login')
+@login_required(login_url='account:login')
 def edit_modal_view( request, pk, *args, **kwargs):
     task = get_object_or_404(Task, pk=pk)
     form = TaskForm(request.POST or None, instance=task) 
@@ -115,7 +66,7 @@ def edit_modal_view( request, pk, *args, **kwargs):
     return HttpResponse('Success')
 
 
-@login_required(login_url='todoapp:login')
+@login_required(login_url='account:login')
 def delete_view( request, pk, *args, **kwargs):
     task = get_object_or_404(Task, pk=pk)
     if request.method == 'POST':
@@ -123,7 +74,7 @@ def delete_view( request, pk, *args, **kwargs):
         task.delete()
     return list_view( request ) 
 
-@login_required(login_url='todoapp:login')
+@login_required(login_url='account:login')
 def update_checkbox( request, pk ):
     # Negate the present value
     # use the message system to pass the message if failed to the top of the page
@@ -135,7 +86,7 @@ def update_checkbox( request, pk ):
     else:
         return HttpResponse('Failed')
 
-@login_required(login_url='todoapp:login')
+@login_required(login_url='account:login')
 def check_all_boxes_view( request ):
     if request.method == 'POST':
         tasks = Task.objects.filter(user = request.user)
@@ -149,7 +100,7 @@ def check_all_boxes_view( request ):
         
     return HttpResponse('Failed')
     
-@login_required(login_url='todoapp:login')
+@login_required(login_url='account:login')
 def delete_all_checked_view( request ):
     if request.method == 'POST':
         tasks = Task.objects.filter(user = request.user)

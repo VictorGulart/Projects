@@ -1,12 +1,41 @@
 # generic
 from django.db.models import Q
+from django_filters.rest_framework import DjangoFilterBackend # this will filter the models
+from rest_framework.exceptions import ValidationError
+from rest_framework.filters import SearchFilter # this will filter specified fields 
+from rest_framework.pagination import LimitOffsetPagination
 from rest_framework import generics, mixins
+
 from todoapp.models import Task
-from .serializers import TaskListSerializer, TaskSerializer 
+
+from .serializers import TaskSerializer 
 from .permissions import IsOwnerOrReadOnly
 
 
-class ToDoAPIView(generics.CreateAPIView):
+class TaskPagination(LimitOffsetPagination):
+    default_limit = 10
+    max_limit = 100
+
+   
+class TaskListView(generics.ListAPIView):
+    ''' Just return a list of the task available
+    Filters and Search can be added to upgrade query
+    '''
+    queryset = Task.objects.all()
+    serializer_class = TaskSerializer
+    
+    # adding filters
+    filter_backends = (DjangoFilterBackend, SearchFilter)
+    filter_fields = ('id', )
+    search_fields = ('title', 'message', )
+
+    # addding pagination
+    pagination_class = TaskPagination
+
+
+
+class TaskCreateView(generics.CreateAPIView):
+    ''' Create new tasks '''
     lookup_field = 'pk' # this could be a slug or ID
     serializer_class = TaskSerializer
     
@@ -14,16 +43,28 @@ class ToDoAPIView(generics.CreateAPIView):
         # same as setting the queryset variable
         return Task.objects.all()
 
-    # Adding the option to add a post form the list view api
-    def post(self, request, *args, **kwargs):
-        # this is the hardcoded way, instead we can use mixins
-        return #
-    
-class ToDoListView(generics.ListAPIView):
+class TaskDestroyView(generics.DestroyAPIView):
+    ''' Delete tasks 
+    Also when deleting tasks may also mean that alll cache related to that 
+    task must be cleared
+    '''
     queryset = Task.objects.all()
-    serializer_class = TaskSerializer
+    lookup_field = 'pk'
 
-class ToDoListViewMixin(mixins.CreateModelMixin, generics.ListAPIView):
+
+    # override the delete method to delete the cache
+    def delete( self, request, *args, **kwargs):
+        task_id = request.data.get('id') 
+        response = super().delete(request, *args, **kwargs)
+        if response.status_code == 204:
+            from django.core.cache import cache
+            cache.delete(f'task_data_{task_id}')
+        return response
+
+
+
+class TaskListMixinView(mixins.CreateModelMixin, generics.ListAPIView):
+    ''' It returns the same as a List but with the extra functionality to add content  '''
     lookup_field = 'pk' # this could be a slug or ID
     serializer_class = TaskSerializer
     
@@ -56,16 +97,15 @@ class ToDoListViewMixin(mixins.CreateModelMixin, generics.ListAPIView):
     #     return self.update(request, *args, **kwargs)
     
 
-
-
-class ToDoView(generics.RetrieveUpdateDestroyAPIView): # DetailView CreateView 
+class TaskRUDView(generics.RetrieveUpdateDestroyAPIView): # DetailView CreateView 
+    ''' 
+    RUD here stands for Retrieve Update Destroy
+    This allows the user to get, update and delete the task  '''
     # default lookup field is the pk
     lookup_field = 'pk' # this could be a slug or ID
     serializer_class = TaskSerializer
     permission_classes = [IsOwnerOrReadOnly]
     # queryset = Task.objects.all() 
-
-
 
     def get_queryset(self):
         # same as setting the queryset variable

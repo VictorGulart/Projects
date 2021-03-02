@@ -1,0 +1,2 @@
+Simple web scrapper built in python with Beautifull Soup and tkinter.
+It searchs for the markets values posted on the investing.co.uk website.
